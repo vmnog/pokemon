@@ -1,14 +1,28 @@
 import Head from "next/head";
+import { Input } from "../components/Input";
+import { MenuList } from "../components/MenuList";
 
-import styles from "../styles/home.module.scss";
+import styles from "./home.module.scss";
 
 export default function Home() {
   return (
     <>
       <Head>
-        <title>Início | pokemon</title>
+        <title>Início | Pokemon</title>
       </Head>
-      <h1 className={styles.title}>Hello</h1>
+
+      <main className={styles.contentContainer}>
+        <section>
+          <h1>Qual Pokemon</h1>
+          <h1>você está procurando?</h1>
+        </section>
+
+        <div className={styles.inputContainer}>
+          <Input />
+        </div>
+
+        <MenuList />
+      </main>
     </>
   );
 }
