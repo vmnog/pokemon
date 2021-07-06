@@ -1,15 +1,25 @@
 .inputContainer {
-  width: 260px;
+  width: 100%;
+
+  background: var(--gray-100);
+
+  border-radius: 25px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  padding-left: 1.5rem;
 
   input {
+    padding-left: 1.2rem;
+
     width: 100%;
     border: none;
-    background: var(--gray-100);
+
+    background: none;
 
     height: 50px;
-    border-radius: 25px;
-
-    padding: 0 1.7rem;
 
     outline: none;
 

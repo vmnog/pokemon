@@ -1,5 +1,5 @@
 .contentContainer {
-  max-width: 1120px;
+  max-width: 920px;
   margin: 0 auto;
 
   padding: 5rem 2rem;
@@ -14,12 +14,19 @@
     h1 {
       font-size: 1.8rem;
       font-weight: 900;
+
+      @media (max-width: 480px) {
+        max-width: 80%;
+      }
+      @media (max-width: 320px) {
+        max-width: 100%;
+      }
     }
   }
 }
 
 .inputContainer {
-  div {
-    margin: 40px 0;
-  }
+  margin: 40px 0;
+
+  width: 100%;
 }
