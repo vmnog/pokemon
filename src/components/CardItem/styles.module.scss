@@ -12,6 +12,17 @@
 
   position: relative;
 
+  transition: opacity 200ms, transform 200ms;
+
+  &:active {
+    opacity: 0.7;
+  }
+
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+  }
+
   // Card name
   strong {
     z-index: 2;
@@ -75,6 +86,17 @@
   padding: 1rem;
 
   position: relative;
+
+  transition: opacity 200ms, transform 200ms;
+
+  &:active {
+    opacity: 0.7;
+  }
+
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+  }
 
   // Card name
   strong {

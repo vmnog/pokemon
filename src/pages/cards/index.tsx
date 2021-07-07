@@ -10,6 +10,7 @@ import { api } from "../../services/api";
 import { ICard } from "../../interfaces/card";
 
 import styles from "./styles.module.scss";
+import { isArrayFilled } from "../../utils/isArrayFilled";
 
 export default function Home() {
   // States
@@ -63,7 +64,7 @@ export default function Home() {
 
         <MdKeyboardArrowDown size={40} color="var(--gray-900)" />
 
-        {Array.isArray(cards) && cards.length && <CardsList cards={cards} />}
+        {isArrayFilled(cards) && <CardsList cards={cards} />}
 
         {loading && <h3>Carregando...</h3>}
       </main>

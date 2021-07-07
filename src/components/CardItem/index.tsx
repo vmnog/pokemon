@@ -1,6 +1,7 @@
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { ICard } from "../../interfaces/card";
-import { isArrayEmpty } from "../../utils/isArrayEmpty";
+import { isArrayFilled } from "../../utils/isArrayFilled";
 
 import styles from "./styles.module.scss";
 
@@ -16,6 +17,10 @@ const purpleTypes = ["Darkness", "Metal", "Psychic"];
 const brownTypes = ["Dragon", "Colorless"];
 
 export function CardItem({ card }: CardItemProps) {
+  // Hooks
+  const router = useRouter();
+
+  // Defines a className(color) by passing Pokemon type
   const handleCardColorByType = (type: string) => {
     if (greenTypes.includes(type)) return "green";
     if (redTypes.includes(type)) return "red";
@@ -25,19 +30,25 @@ export function CardItem({ card }: CardItemProps) {
     if (brownTypes.includes(type)) return "brown";
   };
 
+  // If pokemon card has a type it will define a color, else it will define default className
   const handleCardClassName = (types: string[]) =>
-    isArrayEmpty(types)
+    isArrayFilled(types)
       ? styles[handleCardColorByType(types[0])]
       : styles.itemContainer;
 
+  const handleCheckDetails = () => router.push(`cards/${card.id}`);
+
   return (
-    <div className={handleCardClassName(card.types)}>
+    <div
+      className={handleCardClassName(card.types)}
+      onClick={handleCheckDetails}
+    >
       <strong>{card.name}</strong>
       <i>{card.id}</i>
       <i>{card.supertype}</i>
       <div>
         <div className={styles.typesContainer}>
-          {isArrayEmpty(card.types) &&
+          {isArrayFilled(card.types) &&
             card.types.map((type) => (
               <div key={type}>
                 <span>{type}</span>
