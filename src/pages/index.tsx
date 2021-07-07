@@ -29,6 +29,8 @@ export default function Home() {
       </Head>
 
       <main className={styles.contentContainer}>
+        <div className={styles.background} />
+
         <section>
           <h1>Qual Pokemon você está procurando?</h1>
         </section>
