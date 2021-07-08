@@ -37,5 +37,6 @@ $ yarn dev
 
 - NextJS
 - Typescript
+- Sass
 - Jest / Testing Library
 - Axios
