@@ -1,4 +1,6 @@
 import Image from "next/image";
+import Head from "next/head";
+
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 
@@ -47,6 +49,10 @@ export default function CardPage() {
 
   return (
     <>
+      <Head>
+        <title>{card && card.name && card.name} | Pokemón</title>
+      </Head>
+
       {!loading && error && (
         <div className={styles.errorContainer}>
           <Image
@@ -60,9 +66,7 @@ export default function CardPage() {
           </h2>
         </div>
       )}
-
       {loading && <h2 className={styles.title}>Carregando...</h2>}
-
       {!!card && !loading && (
         <div className={styles[handleCardColorByType(card.types[0])]}>
           <section>

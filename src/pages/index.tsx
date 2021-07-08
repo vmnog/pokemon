@@ -25,7 +25,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Início | Pokemon</title>
+        <title>Início | Pokemón</title>
       </Head>
 
       <main className={styles.contentContainer}>

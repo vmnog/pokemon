@@ -13,7 +13,7 @@ export function Input({ onChange }: InputProps) {
       <MdSearch size={30} color="var(--gray-900)" />
       <input
         type="text"
-        placeholder="Procure por um Pokemon"
+        placeholder="Procure por um Pokemón"
         onChange={onChange}
       />
     </div>

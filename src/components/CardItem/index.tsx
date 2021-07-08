@@ -40,14 +40,16 @@ export function CardItem({ card }: CardItemProps) {
             ))}
         </div>
 
-        <div className={styles.imageContainer}>
-          <Image
-            src={String(card.images.small)}
-            alt={card.name}
-            width="100"
-            height="140"
-          />
-        </div>
+        {card.images && (
+          <div className={styles.imageContainer}>
+            <Image
+              src={String(card.images.small)}
+              alt={card.name}
+              width="100"
+              height="140"
+            />
+          </div>
+        )}
 
         <section />
       </div>

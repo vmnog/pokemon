@@ -12,11 +12,15 @@ import { ICard } from "../../interfaces/card";
 
 import styles from "./styles.module.scss";
 import { isArrayFilled } from "../../utils/isArrayFilled";
+import { InfiniteScroll } from "../../components/InfiniteScroll";
 
 export default function Home() {
   // States
   const [loading, setLoading] = useState(false);
+  const [hasMoreToLoad, sethasMoreToLoad] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
   const [cards, setCards] = useState<ICard[]>([] as ICard[]);
+  const [totalCount, setTotalCount] = useState(0);
 
   // Hooks
   const router = useRouter();
@@ -26,9 +30,7 @@ export default function Home() {
     try {
       setLoading(true);
 
-      const {
-        data: { data },
-      } = await api.get("cards", {
+      const { data } = await api.get("cards", {
         params: {
           q: "supertype:pokemon " + `name:${router.query.q || ""}*`,
           page: 1,
@@ -37,18 +39,53 @@ export default function Home() {
         },
       });
 
-      setCards(data);
+      setTotalCount(data.totalCount);
+      setCards(data.data);
+      sethasMoreToLoad(true);
+      setCurrentPage((state) => state + 1);
       setLoading(false);
     } catch (err) {
-      alert(err.message);
       setLoading(false);
     }
   }, [router]);
 
+  // Handling infinite scroll api request
+  const fetchMore = useCallback(async () => {
+    try {
+      setLoading(true);
+
+      const { data } = await api.get("cards", {
+        params: {
+          q: "supertype:pokemon " + `name:${router.query.q || ""}*`,
+          page: currentPage,
+          pageSize: 20,
+          orderBy: "name",
+        },
+      });
+
+      if (data.data.length === 0) {
+        sethasMoreToLoad(false);
+        setLoading(false);
+
+        return;
+      }
+
+      setTotalCount(data.totalCount);
+      setCards((state) => [...state, ...data.data]);
+
+      setCurrentPage((state) => state + 1);
+      setLoading(false);
+    } catch (err) {
+      setLoading(false);
+    }
+  }, [router, currentPage]);
+
   // Loading cards by search when page loads
   useEffect(() => {
     handleLoadCards();
-  }, [router, handleLoadCards]);
+
+    //eslint-disable-next-line
+  }, [router]);
 
   return (
     <>
@@ -69,7 +106,15 @@ export default function Home() {
 
         {isArrayFilled(cards) && <CardsList cards={cards} />}
 
+        {isArrayFilled(cards) && !loading && hasMoreToLoad && (
+          <InfiniteScroll fetchMore={fetchMore} />
+        )}
+
         {loading && <h3>Carregando...</h3>}
+
+        {!loading && !cards.length && (
+          <h3>Não foram encontrados resultados para sua busca.</h3>
+        )}
       </main>
     </>
   );
