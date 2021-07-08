@@ -7,11 +7,13 @@ import { ICard } from "../../../interfaces/card";
 
 import styles from "./styles.module.scss";
 import { isArrayFilled } from "../../../utils/isArrayFilled";
+import { handleCardColorByType } from "../../../utils/handleCardColorByType";
 
 export default function CardPage() {
   // States
   const [card, setCard] = useState<ICard | null>(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   // Hooks
   const router = useRouter();
@@ -31,59 +33,98 @@ export default function CardPage() {
       setLoading(false);
     } catch (error) {
       console.log({ error });
+      setError(true);
       setLoading(false);
     }
   }, [id]);
 
   useEffect(() => {
-    handleLoadCard();
-  }, [handleLoadCard]);
+    if (id) {
+      handleLoadCard();
+    }
+  }, [handleLoadCard, id]);
 
   return (
     <>
-      {loading && <h1>Carregando...</h1>}
-
-      {!loading && !card && (
-        <h1>Não foi possível encontrar o pokemon desejado</h1>
+      {!loading && error && (
+        <div className={styles.errorContainer}>
+          <Image
+            width="300"
+            height="300"
+            src="https://pm1.narvii.com/6373/fdeba7755b87b04a45e0b8ba269e2371c33f8b6f_hq.jpg"
+            alt="pikachu triste"
+          />
+          <h2 className={styles.title}>
+            Não foi possível encontrar o pokemon desejado :(
+          </h2>
+        </div>
       )}
 
+      {loading && <h2 className={styles.title}>Carregando...</h2>}
+
       {!!card && !loading && (
-        <div className={styles.cardContainer}>
-          <div className={styles.imageContainer}>
-            <Image
-              src={String(card.images.large)}
-              alt={card.name}
-              width="100"
-              height="140"
-            />
-          </div>
-          <span>{card.name}</span>
-          <span>{card.id}</span>
-          <span>types: {isArrayFilled(card.types) && card.types[0]}</span>
+        <div className={styles[handleCardColorByType(card.types[0])]}>
+          <section>
+            <div>
+              <h1>{card.name}</h1>
+              <span>{card.id}</span>
+              <div>
+                {isArrayFilled(card.types) &&
+                  card.types.map((type) => (
+                    <div key={type}>
+                      <span>{type}</span>
+                    </div>
+                  ))}
+              </div>
+              <div className={styles.imageContainer}>
+                <Image
+                  src={String(card.images.large)}
+                  alt={card.name}
+                  width="290"
+                  height="340"
+                />
+              </div>
+            </div>
+          </section>
 
-          {isArrayFilled(card.attacks) && (
-            <>
-              <span>attacks name: {card.attacks[0].name}</span>
-              <span>attacks cost: {card.attacks[0].convertedEnergyCost}</span>
-              <span>attacks damage: {card.attacks[0].damage}</span>
-              <span>attacks text: {card.attacks[0].text}</span>
-            </>
-          )}
+          <main className={styles.attributesContainer}>
+            <h1>Ataques</h1>
+            {isArrayFilled(card.attacks) &&
+              card.attacks.map((attack) => (
+                <div key={attack.name} className={styles.attackContainer}>
+                  <h1>{attack.name}</h1>
+                  <div>
+                    <strong>Custo: </strong>
+                    <span>{attack.convertedEnergyCost || 0}</span>
+                  </div>
+                  <div>
+                    <strong>Dano:</strong>
+                    <span> {attack.damage || 0}</span>
+                  </div>
+                  <p>{attack.text}</p>
+                </div>
+              ))}
 
-          {isArrayFilled(card.resistances) && (
-            <>
-              <span>resistance: {card.resistances[0].type}</span>
-              <span>resistance: {card.resistances[0].value}</span>
-            </>
-          )}
+            <div className={styles.propertiesContainer}>
+              {isArrayFilled(card.resistances) &&
+                card.resistances.map((item) => (
+                  <div key={item.type}>
+                    <h1>Resistência</h1>
+                    <strong>{item.type}</strong>
+                    <span> {item.value}</span>
+                  </div>
+                ))}
 
-          {isArrayFilled(card.weaknesses) && (
-            <>
-              <span>
-                weaknesses: {card.weaknesses[0].type} {card.weaknesses[0].value}
-              </span>
-            </>
-          )}
+              {isArrayFilled(card.weaknesses) &&
+                card.weaknesses.map((item) => (
+                  <div key={item.type}>
+                    <h1>Fraquezas</h1>
+                    <strong>{item.type}</strong>
+                    <span> {item.value}</span>
+                  </div>
+                ))}
+            </div>
+          </main>
         </div>
       )}
     </>
