@@ -1,26 +1,24 @@
 import Head from "next/head";
-import { useRouter } from "next/dist/client/router";
+import { useRouter } from "next/router";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { useCallback, useEffect, useState } from "react";
 
 import { Header } from "../../components/Header";
 import { CardsList } from "../../components/CardsList";
-
-import { api } from "../../services/api";
-
-import { ICard } from "../../interfaces/card";
-
-import styles from "./styles.module.scss";
-import { isArrayFilled } from "../../utils/isArrayFilled";
 import { InfiniteScroll } from "../../components/InfiniteScroll";
 
-export default function Home() {
+import { api } from "../../services/api";
+import { ICard } from "../../interfaces/card";
+import { isArrayFilled } from "../../utils/isArrayFilled";
+
+import styles from "./styles.module.scss";
+
+export default function Cards() {
   // States
   const [loading, setLoading] = useState(false);
   const [hasMoreToLoad, sethasMoreToLoad] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [cards, setCards] = useState<ICard[]>([] as ICard[]);
-  const [totalCount, setTotalCount] = useState(0);
 
   // Hooks
   const router = useRouter();
@@ -39,13 +37,15 @@ export default function Home() {
         },
       });
 
-      setTotalCount(data.totalCount);
       setCards(data.data);
       sethasMoreToLoad(true);
       setCurrentPage((state) => state + 1);
       setLoading(false);
+
+      return;
     } catch (err) {
       setLoading(false);
+      return;
     }
   }, [router]);
 
@@ -70,13 +70,14 @@ export default function Home() {
         return;
       }
 
-      setTotalCount(data.totalCount);
       setCards((state) => [...state, ...data.data]);
 
       setCurrentPage((state) => state + 1);
       setLoading(false);
+      return;
     } catch (err) {
       setLoading(false);
+      return;
     }
   }, [router, currentPage]);
 

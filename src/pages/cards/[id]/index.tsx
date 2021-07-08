@@ -48,7 +48,7 @@ export default function CardPage() {
   }, [handleLoadCard, id]);
 
   return (
-    <>
+    <div data-testid="card-page-element">
       <Head>
         <title>{card && card.name && card.name} | Pokemón</title>
       </Head>
@@ -66,7 +66,9 @@ export default function CardPage() {
           </h2>
         </div>
       )}
+
       {loading && <h2 className={styles.title}>Carregando...</h2>}
+
       {!!card && !loading && (
         <div className={styles[handleCardColorByType(card.types[0])]}>
           <section>
@@ -133,6 +135,6 @@ export default function CardPage() {
           </main>
         </div>
       )}
-    </>
+    </div>
   );
 }

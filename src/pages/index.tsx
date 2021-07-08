@@ -1,8 +1,9 @@
 import Head from "next/head";
-import { Input } from "../components/Input";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import { FormEvent, useState } from "react";
-import { MenuList } from "../components/MenuList";
-import { useRouter } from "next/dist/client/router";
+
+import { Input } from "../components/Input";
 
 import styles from "./home.module.scss";
 
@@ -17,9 +18,7 @@ export default function Home() {
   const handleSearchCards = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (search) {
-      router.push(`cards?q=${search}`);
-    }
+    router.push(`cards?q=${search}`);
   };
 
   return (
@@ -32,14 +31,16 @@ export default function Home() {
         <div className={styles.background} />
 
         <section>
-          <h1>Qual Pokemon você está procurando?</h1>
+          <h1>Qual Pokemón você está procurando?</h1>
         </section>
 
         <form className={styles.inputContainer} onSubmit={handleSearchCards}>
           <Input onChange={(e) => setSearch(e.target.value)} />
         </form>
 
-        <MenuList />
+        <Link href="/cards">
+          <a>Ver todas as cartas</a>
+        </Link>
       </main>
     </>
   );
