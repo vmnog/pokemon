@@ -1,9 +1,9 @@
 import Image from "next/image";
+import { useRouter } from "next/dist/client/router";
 
 import styles from "./styles.module.scss";
 
 import PokeballImage from "../../assets/pokeball-white.png";
-import { useRouter } from "next/dist/client/router";
 
 interface MenuItemProps {
   backgroundColor: "green" | "red" | "blue" | "yellow" | "purple" | "brown";

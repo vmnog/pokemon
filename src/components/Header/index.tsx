@@ -15,6 +15,7 @@ export function Header({ iconTheme }: HeaderProps) {
     <header className={styles.headerContainer}>
       <button onClick={() => router.back()}>
         <MdKeyboardBackspace
+          data-testid="back-icon"
           size={30}
           color={iconTheme === "dark" ? "var(--white)" : "var(--gray-900)"}
         />
