@@ -5,9 +5,12 @@ import { useCallback, useEffect, useState } from "react";
 import { api } from "../../../services/api";
 import { ICard } from "../../../interfaces/card";
 
-import styles from "./styles.module.scss";
+import { Header } from "../../../components/Header";
+
 import { isArrayFilled } from "../../../utils/isArrayFilled";
 import { handleCardColorByType } from "../../../utils/handleCardColorByType";
+
+import styles from "./styles.module.scss";
 
 export default function CardPage() {
   // States
@@ -28,11 +31,9 @@ export default function CardPage() {
         data: { data },
       } = await api.get(`cards/${id}`);
 
-      console.log(data);
       setCard(data);
       setLoading(false);
     } catch (error) {
-      console.log({ error });
       setError(true);
       setLoading(false);
     }
@@ -65,6 +66,7 @@ export default function CardPage() {
       {!!card && !loading && (
         <div className={styles[handleCardColorByType(card.types[0])]}>
           <section>
+            <Header iconTheme="dark" />
             <div>
               <h1>{card.name}</h1>
               <span>{card.id}</span>

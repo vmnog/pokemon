@@ -1,0 +1,22 @@
+.headerContainer {
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+  max-width: 1200px;
+
+  margin-top: 1rem;
+
+  button {
+    padding: 1rem;
+
+    border: none;
+    background: none;
+
+    border-radius: 10px;
+
+    &:hover {
+      background: rgba($color: #000, $alpha: 0.1);
+    }
+  }
+}

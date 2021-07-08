@@ -3,6 +3,7 @@ import { useRouter } from "next/dist/client/router";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { useCallback, useEffect, useState } from "react";
 
+import { Header } from "../../components/Header";
 import { CardsList } from "../../components/CardsList";
 
 import { api } from "../../services/api";
@@ -56,6 +57,8 @@ export default function Home() {
       </Head>
 
       <main className={styles.contentContainer}>
+        <Header iconTheme="light" />
+
         {router.query.q ? (
           <h1>{`Cartas correspondentes à pesquisa "${router.query.q}"`}</h1>
         ) : (
